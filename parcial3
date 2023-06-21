@@ -1,0 +1,187 @@
+import java.util.Scanner;
+
+enum TipoVehiculo {
+    COCHE,
+    MOTOCICLETA,
+    CAMION,
+    LANCHA,
+    CRUCERO
+}
+
+abstract class Vehiculo {
+    private String color;
+    private String marca;
+    private String modelo;
+    private int anio;
+
+    public Vehiculo(String color, String marca, String modelo, int anio) {
+        this.color = color;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+    }
+
+    public abstract void acelerar();
+
+    public abstract void frenar();
+
+    public void encender() {
+        System.out.println("El vehículo se ha encendido.");
+    }
+
+    public void detenerse() {
+        System.out.println("El vehículo se ha detenido.");
+    }
+
+    public void imprimirDatos() {
+        System.out.println("Color: " + color);
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Año: " + anio);
+    }
+}
+
+class VehiculoTerrestre extends Vehiculo {
+    private String placa;
+
+    public VehiculoTerrestre(String color, String marca, String modelo, int anio, String placa) {
+        super(color, marca, modelo, anio);
+        this.placa = placa;
+    }
+
+    @Override
+    public void acelerar() {
+        System.out.println("El vehículo terrestre está acelerando.");
+    }
+
+    @Override
+    public void frenar() {
+        System.out.println("El vehículo terrestre está frenando.");
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+}
+
+class VehiculoAcuatico extends Vehiculo {
+    private String registroBandera;
+
+    public VehiculoAcuatico(String color, String marca, String modelo, int anio, String registroBandera) {
+        super(color, marca, modelo, anio);
+        this.registroBandera = registroBandera;
+    }
+
+    @Override
+    public void acelerar() {
+        System.out.println("El vehículo acuático está acelerando.");
+    }
+
+    @Override
+    public void frenar() {
+        System.out.println("El vehículo acuático está frenando.");
+    }
+
+    public String getRegistroBandera() {
+        return registroBandera;
+    }
+}
+
+class Coche extends VehiculoTerrestre {
+    public Coche(String color, String marca, String modelo, int anio, String placa) {
+        super(color, marca, modelo, anio, placa);
+    }
+}
+
+class Motocicleta extends VehiculoTerrestre {
+    public Motocicleta(String color, String marca, String modelo, int anio, String placa) {
+        super(color, marca, modelo, anio, placa);
+    }
+}
+
+class Camion extends VehiculoTerrestre {
+    public Camion(String color, String marca, String modelo, int anio, String placa) {
+        super(color, marca, modelo, anio, placa);
+    }
+}
+
+class Lancha extends VehiculoAcuatico {
+    public Lancha(String color, String marca, String modelo, int anio, String registroBandera) {
+        super(color, marca, modelo, anio, registroBandera);
+    }
+}
+
+class Crucero extends VehiculoAcuatico {
+    public Crucero(String color, String marca, String modelo, int anio, String registroBandera) {
+        super(color, marca, modelo, anio, registroBandera);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Ingrese el tipo de vehículo deseado (COCHE, MOTOCICLETA, CAMION, LANCHA, CRUCERO):");
+        TipoVehiculo tipoVehiculo = null;
+        try {
+            tipoVehiculo = TipoVehiculo.valueOf(scanner.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Tipo de vehículo inválido.");
+            System.exit(1);
+        }
+
+        System.out.println("Ingrese el color del vehículo:");
+        String color = scanner.nextLine();
+
+        System.out.println("Ingrese la marca del vehículo:");
+        String marca = scanner.nextLine();
+
+        System.out.println("Ingrese el modelo del vehículo:");
+        String modelo = scanner.nextLine();
+
+        System.out.println("Ingrese el año del vehículo:");
+        int anio = 0;
+        try {
+            anio = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Año inválido.");
+            System.exit(1);
+        }
+
+        Vehiculo vehiculo = null;
+
+        switch (tipoVehiculo) {
+            case COCHE:
+                System.out.println("Ingrese la placa del coche:");
+                String placa = scanner.nextLine();
+                vehiculo = new Coche(color, marca, modelo, anio, placa);
+                break;
+            case MOTOCICLETA:
+                System.out.println("Ingrese la placa de la motocicleta:");
+                placa = scanner.nextLine();
+                vehiculo = new Motocicleta(color, marca, modelo, anio, placa);
+                break;
+            case CAMION:
+                System.out.println("Ingrese la placa del camión:");
+                placa = scanner.nextLine();
+                vehiculo = new Camion(color, marca, modelo, anio, placa);
+                break;
+            case LANCHA:
+                System.out.println("Ingrese el registro de bandera de la lancha:");
+                String registroBandera = scanner.nextLine();
+                vehiculo = new Lancha(color, marca, modelo, anio, registroBandera);
+                break;
+            case CRUCERO:
+                System.out.println("Ingrese el registro de bandera del crucero:");
+                registroBandera = scanner.nextLine();
+                vehiculo = new Crucero(color, marca, modelo, anio, registroBandera);
+                break;
+        }
+
+        if (vehiculo != null) {
+            vehiculo.imprimirDatos();
+            vehiculo.acelerar();
+            vehiculo.frenar();
+        }
+    }
+}
